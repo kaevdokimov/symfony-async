@@ -17,12 +17,11 @@ docker-clear:
 docker-build:
 	docker-compose build --pull
 
-tests:
-	docker-compose exec php symfony console phpunit
+app-tests:
+	docker-compose exec php bin/phpunit
 
 clear:
 	docker-compose exec php symfony console cache:clear
-	#rm -rf var/cache/dev/http_cache/
 
 app:
 	docker-compose exec php bash
