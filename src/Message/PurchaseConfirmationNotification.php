@@ -5,7 +5,7 @@ namespace App\Message;
 readonly class PurchaseConfirmationNotification
 {
 
-    public function __construct(private object $order)
+        public function __construct(private object $order)
     {
     }
 
