@@ -27,7 +27,7 @@ readonly class PurchaseConfirmationNotificationHandler
     {
         // 1. Create a PDF contract note
         $mpdf = new Mpdf();
-        $content = "<h1>Contract note for order {$notification->getOrder()->getId()}</h1>";
+        $content = "<h1>Contract note for order {$notification->getOrderId()}</h1>";
         $content .= '<p>Total: <b>$1898.75</b></p>';
         $mpdf->WriteHTML($content);
         $contractNotePdf = $mpdf->Output('contract-note.pdf', Destination::STRING_RETURN);
@@ -36,8 +36,8 @@ readonly class PurchaseConfirmationNotificationHandler
 
         $email = (new Email())
             ->from('sale@stocksapp.com')
-            ->to($notification->getOrder()->getBuyer()->getEmail())
-            ->subject('Contract note for order ' . $notification->getOrder()->getId())
+            ->to('email@example.tech')
+            ->subject('Contract note for order ' . $notification->getOrderId())
             ->text('Here is your contract note')
             ->attach($contractNotePdf, 'contract-note.pdf')
         ;

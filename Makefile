@@ -1,6 +1,6 @@
 #!make
 
-init: docker-clear docker-build docker-up composer-install
+init: docker-clear docker-build docker-up composer-install migrate messenger-init messenger-run
 up: docker-up
 down: docker-down
 restart: docker-down docker-up
@@ -32,6 +32,21 @@ composer-install:
 composer-update:
 	docker-compose exec php composer update
 	docker-compose exec php composer dump-autoload -o
+
+messenger-init:
+	docker-compose exec php symfony console messenger:setup-transports
+
+messenger-run:
+	docker-compose exec php symfony run -d --watch=config,src,templates,vendor symfony console messenger:consume async -vv
+
+migration:
+	docker-compose exec php symfony console make:migration
+
+migrate:
+	docker-compose exec php symfony console doctrine:migrations:migrate --all-or-nothing --query-time --no-interaction --env=dev
+
+migrate-prod:
+	docker-compose exec php symfony console doctrine:migrations:migrate --all-or-nothing --query-time --no-interaction
 
 log:
 	docker-compose exec php symfony server:log
