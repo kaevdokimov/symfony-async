@@ -24,6 +24,8 @@ readonly class OrderSavedEventHandler
      */
     public function __invoke(OrderSavedEvent $event): void
     {
+        // Attempt to retrieve an order from MongoDB
+        throw new \RuntimeException('ORDER COULD NOT FOUND');
         // 1. Create a PDF contract note
         $mpdf = new Mpdf();
         $content = "<h1>Contract note for order {$event->getOrderId()}</h1>";
