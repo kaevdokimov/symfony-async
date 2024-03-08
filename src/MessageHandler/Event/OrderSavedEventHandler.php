@@ -40,8 +40,7 @@ readonly class OrderSavedEventHandler
             ->to('email@example.tech')
             ->subject('Contract note for order ' . $event->getOrderId())
             ->text('Here is your contract note')
-            ->attach($contractNotePdf, 'contract-note.pdf')
-        ;
+            ->attach($contractNotePdf, 'contract-note.pdf');
 
         $this->mailer->send($email);
     }
