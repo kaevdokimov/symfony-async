@@ -132,6 +132,8 @@ fabric.properties
 !var/logs/.gitkeep
 !var/sessions/.gitkeep
 
+/var/rabbitmq
+
 # Logs (Symfony4)
 /var/log/*
 !var/log/.gitkeep
