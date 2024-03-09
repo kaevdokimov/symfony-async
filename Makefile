@@ -1,6 +1,6 @@
 #!make
 
-init: docker-clear docker-build docker-up composer-install migrate
+init: docker-clear docker-build docker-up composer-install migrate messenger-init
 up: docker-up
 down: docker-down
 restart: docker-down docker-up
