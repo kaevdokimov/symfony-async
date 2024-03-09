@@ -5,10 +5,11 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.2",
+        "ext-amqp": "*",
         "ext-ctype": "*",
         "ext-gd": "*",
         "ext-iconv": "*",
-        "ext-amqp": "*",
+        "ext-redis": "*",
         "doctrine/dbal": "^4",
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
@@ -22,6 +23,7 @@
         "symfony/framework-bundle": "7.0.*",
         "symfony/mailer": "7.0.*",
         "symfony/messenger": "7.0.*",
+        "symfony/redis-messenger": "7.0.*",
         "symfony/runtime": "7.0.*",
         "symfony/yaml": "7.0.*"
     },

@@ -24,6 +24,7 @@ services:
     depends_on:
       - database
       - rabbitmq
+      - redis
 ###> symfony/mailer ###
   mailer:
     image: axllent/mailpit:latest
@@ -67,7 +68,20 @@ services:
       - ./var/rabbitmq/data/:/var/lib/rabbitmq/
       - ./var/rabbitmq/log/:/var/log/rabbitmq
 
+  redis:
+    image: redis:7.2.4-alpine
+    container_name: sa-redis
+    restart: always
+    ports:
+      - '${REDIS_PORT:-6379}:6379'
+    environment:
+      REDIS_PORT: ${REDIS_PORT:-6379}
+    command: ["redis-server", "--requirepass", "${REDIS_PASS}", "--appendonly", "no", "--maxmemory", "500mb", "--maxmemory-policy", "allkeys-lru"]
+    volumes:
+      - redis-data:/var/lib/redis
+
 volumes:
   ###> doctrine/doctrine-bundle ###
   database_data:
+  redis-data:
 ###< doctrine/doctrine-bundle ###
