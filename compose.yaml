@@ -23,6 +23,7 @@ services:
       - ./:/var/www
     depends_on:
       - database
+      - rabbitmq
 ###> symfony/mailer ###
   mailer:
     image: axllent/mailpit:latest
@@ -50,6 +51,15 @@ services:
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
 ###< doctrine/doctrine-bundle ###
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: sa-rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./var/rabbitmq/data/:/var/lib/rabbitmq/
+      - ./var/rabbitmq/log/:/var/log/rabbitmq
 
 volumes:
   ###> doctrine/doctrine-bundle ###
