@@ -1,4 +1,4 @@
-FROM php:8.4-fpm-alpine3.20
+FROM php:8.4-fpm-alpine3.21
 WORKDIR /var/www/
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN apk add --update rabbitmq-c-dev curl bash git libpng-dev postgresql-dev && \
