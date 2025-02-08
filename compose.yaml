@@ -14,7 +14,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/php/Dockerfile
-    container_name: sa-php83
+    container_name: sa-php84
     ports:
       - "9000:9000"
     volumes:
