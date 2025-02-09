@@ -1,6 +1,6 @@
 services:
   nginx:
-    image: nginx:mainline-alpine3.21-slim
+    image: nginx:mainline-alpine-slim
     container_name: sa-nginx
     ports:
       - "8080:80"
@@ -10,6 +10,7 @@ services:
     depends_on:
       - php
       - database
+
   php:
     build:
       context: .
@@ -17,13 +18,16 @@ services:
     container_name: sa-php84
     ports:
       - "9000:9000"
+    environment:
+      APP_ENV: ${APP_ENV:-dev} # Добавлено для явного указания окружения
     volumes:
       - ./:/var/www
     depends_on:
       - database
       - rabbitmq
       - redis
-###> symfony/mailer ###
+
+  ###> symfony/mailer ###
   mailer:
     image: axllent/mailpit:latest
     container_name: sa-mailer
@@ -33,53 +37,55 @@ services:
     environment:
       MP_SMTP_AUTH_ACCEPT_ANY: 1
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
-###< symfony/mailer ###
+    restart: unless-stopped # Добавлено для автоматического перезапуска
+  ###< symfony/mailer ###
+
   ###> doctrine/doctrine-bundle ###
   database:
-    image: postgres:${POSTGRES_VERSION:-16}-alpine3.20
+    image: postgres:16-alpine
     container_name: sa-db
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
       POSTGRES_USER: ${POSTGRES_USER:-app}
       POSTGRES_PASSWORD: ${POSTGRES_PASS:-app-pwd}
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+    restart: unless-stopped # Добавлено для автоматического перезапуска
+  ###< doctrine/doctrine-bundle ###
+
   rabbitmq:
-    image: rabbitmq:4.0-management-alpine
-    hostname: rabbitmq
-    restart: always
+    image: rabbitmq:management-alpine
     container_name: sa-rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER:-app}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS:-app-pwd}
       RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: -rabbit log_levels [{connection,error},{default,error}] disk_free_limit 2147483648
     ports:
-      - 5672:5672
-      - 15672:15672
+      - "5672:5672"
+      - "15672:15672"
     volumes:
-      - ./var/rabbitmq/data/:/var/lib/rabbitmq/
-      - ./var/rabbitmq/log/:/var/log/rabbitmq
+      - rabbitmq_data:/var/lib/rabbitmq
+      - rabbitmq_logs:/var/log/rabbitmq
+    restart: unless-stopped # Добавлено для автоматического перезапуска
 
   redis:
-    image: redis:7.4.2-alpine3.21
+    image: redis:alpine
     container_name: sa-redis
-    restart: always
     ports:
-      - '${REDIS_PORT:-6379}:6379'
+      - "${REDIS_PORT:-6379}:6379"
     environment:
-      REDIS_PORT: ${REDIS_PORT:-6379}
+      REDIS_PASS: ${REDIS_PASS:-redis-pwd}
     command: ["redis-server", "--requirepass", "${REDIS_PASS}", "--appendonly", "no", "--maxmemory", "500mb", "--maxmemory-policy", "allkeys-lru"]
     volumes:
-      - redis-data:/var/lib/redis
+      - redis_data:/var/lib/redis
+    restart: unless-stopped # Добавлено для автоматического перезапуска
 
 volumes:
   ###> doctrine/doctrine-bundle ###
   database_data:
-  redis-data:
-###< doctrine/doctrine-bundle ###
+  ###< doctrine/doctrine-bundle ###
+  rabbitmq_data:
+  rabbitmq_logs:
+  redis_data:
