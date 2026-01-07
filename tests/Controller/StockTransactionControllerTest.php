@@ -17,7 +17,7 @@ class StockTransactionControllerTest extends WebTestCase
         $client->request('GET', '/buy');
 
         $this->assertResponseIsSuccessful();
-        $this->assertStringContainsString('Thanks...we\'ve emailed you your contract note', $client->getResponse()->getContent());
+        $this->assertStringContainsString('Спасибо! Мы отправили вам ваш контракт по email', $client->getResponse()->getContent());
     }
 
     #[Test]
