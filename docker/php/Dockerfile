@@ -1,5 +1,5 @@
 # Базовый образ
-FROM php:8.4-fpm-alpine
+FROM php:8.4-fpm-alpine3.23
 
 # Рабочая директория
 WORKDIR /var/www/
