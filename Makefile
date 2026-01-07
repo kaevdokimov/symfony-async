@@ -33,6 +33,9 @@ composer-update:
 	docker-compose exec php composer update -W
 	docker-compose exec php composer dump-autoload -o
 
+recipes-update:
+	docker-compose exec php composer recipes:update
+
 messenger-init:
 	docker-compose exec php symfony console messenger:setup-transports
 	make messenger-run
