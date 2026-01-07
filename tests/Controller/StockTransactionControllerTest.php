@@ -25,7 +25,7 @@ class StockTransactionControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        // Get the messenger transport
+        // Получить транспорт Messenger
         /** @var InMemoryTransport $transport */
         $transport = static::getContainer()->get('messenger.transport.sync');
 
@@ -33,14 +33,14 @@ class StockTransactionControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
 
-        // Check that a SaveOrder command was dispatched
+        // Проверить, что команда SaveOrder была отправлена
         $envelopes = $transport->getSent();
         $this->assertCount(1, $envelopes);
 
         $message = $envelopes[0]->getMessage();
         $this->assertInstanceOf(SaveOrder::class, $message);
 
-        // Check command properties
+        // Проверить свойства команды
         $this->assertEquals(1, $message->userId);
         $this->assertEquals('AAPL', $message->stockSymbol);
         $this->assertEquals(10, $message->quantity);

@@ -29,7 +29,7 @@ class GenerateContractNoteHandlerTest extends TestCase
 
     protected function tearDown(): void
     {
-        // Clean up temp directory
+        // Очистить временную директорию
         if (is_dir($this->tempDir)) {
             array_map('unlink', glob($this->tempDir . '/*'));
             rmdir($this->tempDir);
@@ -48,13 +48,13 @@ class GenerateContractNoteHandlerTest extends TestCase
         );
         $event = new OrderSavedEvent($orderId, $saveOrder);
 
-        // Expect info logging
+        // Ожидаем логирование информации
         $this->logger
             ->expects($this->exactly(2))
             ->method('info')
             ->with($this->logicalOr(
-                $this->equalTo('Generating contract note PDF'),
-                $this->equalTo('Contract note PDF generated')
+                $this->equalTo('Генерация PDF контракта'),
+                $this->equalTo('PDF контракт сгенерирован')
             ))
             ->with($this->logicalOr(
                 $this->equalTo(['orderId' => $orderId, 'userId' => 1]),
@@ -63,7 +63,7 @@ class GenerateContractNoteHandlerTest extends TestCase
 
         $this->handler->__invoke($event);
 
-        // Check that PDF file was created
+        // Проверить, что PDF файл был создан
         $expectedFile = $this->tempDir . '/contract-note-123.pdf';
         $this->assertFileExists($expectedFile);
         $this->assertGreaterThan(0, filesize($expectedFile));
@@ -72,7 +72,7 @@ class GenerateContractNoteHandlerTest extends TestCase
     #[Test]
     public function testCreatesDirectoryIfNotExists(): void
     {
-        // Remove directory if it exists
+        // Удалить директорию, если она существует
         if (is_dir($this->tempDir)) {
             rmdir($this->tempDir);
         }
@@ -90,10 +90,10 @@ class GenerateContractNoteHandlerTest extends TestCase
 
         $this->handler->__invoke($event);
 
-        // Check that directory was created
+        // Проверить, что директория была создана
         $this->assertDirectoryExists($this->tempDir);
 
-        // Check that PDF file was created
+        // Проверить, что PDF файл был создан
         $expectedFile = $this->tempDir . '/contract-note-456.pdf';
         $this->assertFileExists($expectedFile);
     }

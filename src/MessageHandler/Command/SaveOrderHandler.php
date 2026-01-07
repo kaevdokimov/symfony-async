@@ -24,22 +24,22 @@ readonly class SaveOrderHandler
         $this->stopwatch->start('save_order_handler');
 
         try {
-            // Basic validation (without Symfony Validator for now)
+            // Базовая валидация (без Symfony Validator на данный момент)
             $this->validateBasicCommand($saveOrder);
 
-            $this->logger->info('Saving order', [
+            $this->logger->info('Сохранение заказа', [
                 'userId' => $saveOrder->userId,
                 'stockSymbol' => $saveOrder->stockSymbol,
                 'quantity' => $saveOrder->quantity,
                 'price' => $saveOrder->price,
             ]);
 
-            // Save an order to database (mock implementation)
+            // Сохранение заказа в базу данных (имитация реализации)
             $dbEvent = $this->stopwatch->start('database_save', 'save_order_handler');
             $orderId = random_int(1000, 9999);
             $dbEvent->stop();
 
-            // Dispatch an event message on an event bus
+            // Отправка сообщения события в шину событий
             $dispatchEvent = $this->stopwatch->start('event_dispatch', 'save_order_handler');
             $this->eventBus->dispatch(new OrderSavedEvent($orderId, $saveOrder));
             $dispatchEvent->stop();
@@ -52,19 +52,19 @@ readonly class SaveOrderHandler
     private function validateBasicCommand(SaveOrder $command): void
     {
         if ($command->userId <= 0) {
-            throw new \InvalidArgumentException('User ID must be positive');
+            throw new \InvalidArgumentException('ID пользователя должен быть положительным');
         }
 
         if (empty($command->stockSymbol)) {
-            throw new \InvalidArgumentException('Stock symbol cannot be empty');
+            throw new \InvalidArgumentException('Символ акции не может быть пустым');
         }
 
         if ($command->quantity <= 0) {
-            throw new \InvalidArgumentException('Quantity must be positive');
+            throw new \InvalidArgumentException('Количество должно быть положительным');
         }
 
         if ($command->price <= 0) {
-            throw new \InvalidArgumentException('Price must be positive');
+            throw new \InvalidArgumentException('Цена должна быть положительной');
         }
     }
 }

@@ -31,35 +31,35 @@ readonly class SendOrderConfirmationEmailHandler
             $order = $event->getSaveOrder();
             $total = $order->quantity * $order->price;
 
-            $this->logger->info('Sending order confirmation email', [
-                'orderId' => $event->getOrderId(),
-                'userId' => $order->userId,
-            ]);
+        $this->logger->info('Отправка email с подтверждением заказа', [
+            'orderId' => $event->getOrderId(),
+            'userId' => $order->userId,
+        ]);
 
-            // Email preparation
-            $emailPrepEvent = $this->stopwatch->start('email_preparation', 'send_email_handler');
-            $email = (new Email())
-                ->from('sale@stocksapp.com')
-                ->to('user@example.com') // In real app, get from user data
-                ->subject('Order Confirmation - Order #' . $event->getOrderId())
-                ->html(sprintf(
-                    '<h1>Order Confirmation</h1><p>Your order #%d has been placed successfully.</p><p>Stock: %s</p><p>Quantity: %d</p><p>Price: $%.2f</p><p>Total: $%.2f</p>',
-                    $event->getOrderId(),
-                    $order->stockSymbol,
-                    $order->quantity,
-                    $order->price,
-                    $total
-                ));
-            $emailPrepEvent->stop();
+        // Подготовка email
+        $emailPrepEvent = $this->stopwatch->start('email_preparation', 'send_email_handler');
+        $email = (new Email())
+            ->from('sale@stocksapp.com')
+            ->to('user@example.com') // В реальном приложении получить из данных пользователя
+            ->subject('Подтверждение заказа - Заказ №' . $event->getOrderId())
+            ->html(sprintf(
+                '<h1>Подтверждение заказа</h1><p>Ваш заказ №%d успешно размещен.</p><p>Акция: %s</p><p>Количество: %d</p><p>Цена: $%.2f</p><p>Итого: $%.2f</p>',
+                $event->getOrderId(),
+                $order->stockSymbol,
+                $order->quantity,
+                $order->price,
+                $total
+            ));
+        $emailPrepEvent->stop();
 
-            // Email sending
-            $emailSendEvent = $this->stopwatch->start('email_sending', 'send_email_handler');
-            $this->mailer->send($email);
-            $emailSendEvent->stop();
+        // Отправка email
+        $emailSendEvent = $this->stopwatch->start('email_sending', 'send_email_handler');
+        $this->mailer->send($email);
+        $emailSendEvent->stop();
 
-            $this->logger->info('Order confirmation email sent', [
-                'orderId' => $event->getOrderId(),
-            ]);
+        $this->logger->info('Email с подтверждением заказа отправлен', [
+            'orderId' => $event->getOrderId(),
+        ]);
 
         } finally {
             $this->stopwatch->stop('send_email_handler');

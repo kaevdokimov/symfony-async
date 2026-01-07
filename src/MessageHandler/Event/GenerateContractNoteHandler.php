@@ -26,24 +26,24 @@ readonly class GenerateContractNoteHandler
         $order = $event->getSaveOrder();
         $total = $order->quantity * $order->price;
 
-        $this->logger->info('Generating contract note PDF', [
+        $this->logger->info('Генерация PDF контракта', [
             'orderId' => $event->getOrderId(),
             'userId' => $order->userId,
         ]);
 
-        // Ensure directory exists
+        // Убедиться, что директория существует
         if (!is_dir($this->contractNotesPath)) {
             mkdir($this->contractNotesPath, 0755, true);
         }
 
         $mpdf = new Mpdf();
         $content = sprintf(
-            '<h1>Contract Note - Order #%d</h1>
-            <p><strong>Stock Symbol:</strong> %s</p>
-            <p><strong>Quantity:</strong> %d</p>
-            <p><strong>Price per share:</strong> $%.2f</p>
-            <p><strong>Total Amount:</strong> $%.2f</p>
-            <p><strong>Order Date:</strong> %s</p>',
+            '<h1>Контракт - Заказ №%d</h1>
+            <p><strong>Символ акции:</strong> %s</p>
+            <p><strong>Количество:</strong> %d</p>
+            <p><strong>Цена за акцию:</strong> $%.2f</p>
+            <p><strong>Общая сумма:</strong> $%.2f</p>
+            <p><strong>Дата заказа:</strong> %s</p>',
             $event->getOrderId(),
             $order->stockSymbol,
             $order->quantity,
@@ -59,7 +59,7 @@ readonly class GenerateContractNoteHandler
 
         $mpdf->Output($filePath, Destination::FILE);
 
-        $this->logger->info('Contract note PDF generated', [
+        $this->logger->info('PDF контракт сгенерирован', [
             'orderId' => $event->getOrderId(),
             'filePath' => $filePath,
         ]);

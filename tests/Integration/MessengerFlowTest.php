@@ -25,7 +25,7 @@ class MessengerFlowTest extends KernelTestCase
     #[Test]
     public function testCompleteOrderFlow(): void
     {
-        // Create and dispatch SaveOrder command
+        // Создать и отправить команду SaveOrder
         $command = new SaveOrder(
             userId: 1,
             stockSymbol: 'AAPL',
@@ -33,18 +33,18 @@ class MessengerFlowTest extends KernelTestCase
             price: 200.00
         );
 
-        // Dispatch command (this should trigger the event)
+        // Отправить команду (это должно вызвать событие)
         $this->commandBus->dispatch($command);
 
-        // Get async transport to check if events were queued
+        // Получить асинхронный транспорт для проверки постановки событий в очередь
         /** @var InMemoryTransport $asyncTransport */
         $asyncTransport = self::getContainer()->get('messenger.transport.async');
         $envelopes = $asyncTransport->getSent();
 
-        // Should have at least one event (OrderSavedEvent)
+        // Должен быть хотя бы одно событие (OrderSavedEvent)
         $this->assertNotEmpty($envelopes, 'OrderSavedEvent should be dispatched');
 
-        // Find OrderSavedEvent in the envelopes
+        // Найти OrderSavedEvent в конвертах
         $orderSavedEvent = null;
         foreach ($envelopes as $envelope) {
             $message = $envelope->getMessage();
@@ -72,15 +72,15 @@ class MessengerFlowTest extends KernelTestCase
 
         $event = new OrderSavedEvent(999, $command);
 
-        // Dispatch event directly to event bus
+        // Отправить событие напрямую в шину событий
         $this->eventBus->dispatch($event);
 
-        // Check that event was queued in async transport
+        // Проверить, что событие было поставлено в очередь асинхронного транспорта
         /** @var InMemoryTransport $asyncTransport */
         $asyncTransport = self::getContainer()->get('messenger.transport.async');
         $envelopes = $asyncTransport->getSent();
 
-        // Find our event
+        // Найти наше событие
         $found = false;
         foreach ($envelopes as $envelope) {
             $message = $envelope->getMessage();
@@ -90,23 +90,23 @@ class MessengerFlowTest extends KernelTestCase
             }
         }
 
-        $this->assertTrue($found, 'OrderSavedEvent should be queued in async transport');
+        $this->assertTrue($found, 'OrderSavedEvent должен быть поставлен в очередь асинхронного транспорта');
     }
 
     #[Test]
     public function testCommandValidationInFlow(): void
     {
-        // Test invalid command
+        // Тестирование невалидной команды
         $invalidCommand = new SaveOrder(
-            userId: -1, // Invalid: negative user ID
-            stockSymbol: '', // Invalid: empty symbol
-            quantity: 0, // Invalid: zero quantity
-            price: -100.00 // Invalid: negative price
+            userId: -1, // Неверно: отрицательный ID пользователя
+            stockSymbol: '', // Неверно: пустой символ
+            quantity: 0, // Неверно: нулевое количество
+            price: -100.00 // Неверно: отрицательная цена
         );
 
-        // This should throw an exception due to validation
+        // Должно бросить исключение из-за валидации
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid order data');
+        $this->expectExceptionMessage('ID пользователя должен быть положительным');
 
         $this->commandBus->dispatch($invalidCommand);
     }

@@ -10,7 +10,7 @@ use Symfony\Component\Validator\ValidatorInterface;
 readonly class OrderValidationCache
 {
     private const CACHE_KEY_PREFIX = 'order_validation_';
-    private const CACHE_TTL = 300; // 5 minutes
+    private const CACHE_TTL = 300; // 5 минут
 
     public function __construct(
         private CacheItemPoolInterface $cache,
@@ -30,7 +30,7 @@ readonly class OrderValidationCache
 
         $violations = $this->validator->validate($command);
 
-        // Only cache if validation passes (no violations) or has few violations
+        // Кешировать только если валидация прошла (нет нарушений) или их мало
         if ($violations->count() === 0 || $violations->count() <= 2) {
             $cacheItem->set($violations);
             $cacheItem->expiresAfter(self::CACHE_TTL);
@@ -42,7 +42,7 @@ readonly class OrderValidationCache
 
     private function generateCommandHash(SaveOrder $command): string
     {
-        // Create a hash based on command properties to identify similar commands
+        // Создать хеш на основе свойств команды для идентификации похожих команд
         $data = [
             $command->userId,
             $command->stockSymbol,

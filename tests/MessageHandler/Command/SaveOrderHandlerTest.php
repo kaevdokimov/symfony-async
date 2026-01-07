@@ -43,20 +43,20 @@ class SaveOrderHandlerTest extends TestCase
             price: 150.50
         );
 
-        // Command is valid, no exceptions expected
+        // Команда валидна, исключений не ожидается
 
-        // Expect logging
+        // Ожидаем логирование
         $this->logger
             ->expects($this->once())
             ->method('info')
-            ->with('Saving order', $this->callback(function ($context) use ($command) {
+            ->with('Сохранение заказа', $this->callback(function ($context) use ($command) {
                 return $context['userId'] === $command->userId
                     && $context['stockSymbol'] === $command->stockSymbol
                     && $context['quantity'] === $command->quantity
                     && $context['price'] === $command->price;
             }));
 
-        // Expect event dispatch
+        // Ожидаем отправку события
         $this->eventBus
             ->expects($this->once())
             ->method('dispatch')
@@ -77,13 +77,13 @@ class SaveOrderHandlerTest extends TestCase
     {
         $command = new SaveOrder(
             userId: 1,
-            stockSymbol: '', // Invalid: empty symbol
+            stockSymbol: '', // Неверно: пустой символ
             quantity: 10,
             price: 150.50
         );
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Stock symbol cannot be empty');
+        $this->expectExceptionMessage('Символ акции не может быть пустым');
 
         $this->handler->__invoke($command);
     }
