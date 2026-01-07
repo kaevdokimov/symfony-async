@@ -9,7 +9,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Установка зависимостей
 RUN apk add --no-cache --update \
-    bash libpng-dev postgresql-dev rabbitmq-c-dev && \
+    bash git libpng-dev postgresql-dev rabbitmq-c-dev && \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS && \
     docker-php-ext-install -j$(nproc) gd pdo pdo_pgsql && \
     pecl install -o -f amqp redis && \
