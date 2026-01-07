@@ -42,7 +42,7 @@ jobs:
           extensions: iconv, gd, pdo_pgsql, amqp, redis
           tools: composer:v2
           coverage: xdebug
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Copy .env.test.local
         run: |
           if [ ! -f .env.test.local ]; then
