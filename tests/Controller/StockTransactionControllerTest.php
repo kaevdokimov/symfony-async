@@ -17,7 +17,7 @@ class StockTransactionControllerTest extends WebTestCase
         $client->request('GET', '/buy');
 
         $this->assertResponseIsSuccessful();
-        $this->assertStringContainsString('stocks/example.html.twig', $client->getResponse()->getContent());
+        $this->assertStringContainsString('Thanks...we\'ve emailed you your contract note', $client->getResponse()->getContent());
     }
 
     #[Test]

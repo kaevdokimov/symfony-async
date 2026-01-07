@@ -36,7 +36,17 @@ readonly class GenerateContractNoteHandler
             mkdir($this->contractNotesPath, 0755, true);
         }
 
-        $mpdf = new Mpdf();
+        $mpdf = new Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'orientation' => 'P',
+            'margin_left' => 15,
+            'margin_right' => 15,
+            'margin_top' => 16,
+            'margin_bottom' => 16,
+            'margin_header' => 9,
+            'margin_footer' => 9,
+        ]);
         $content = sprintf(
             '<h1>Контракт - Заказ №%d</h1>
             <p><strong>Символ акции:</strong> %s</p>
