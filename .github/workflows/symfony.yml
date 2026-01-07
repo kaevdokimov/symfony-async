@@ -17,38 +17,51 @@ permissions:
 jobs:
   symfony-tests:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_DB: app
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: app-pwd
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     strategy:
       matrix:
-        php-version: [ 8.5 ]
+        php-version: [ 8.3, 8.4 ]
     steps:
-      #  To automatically get bug fixes and new Php versions for shivammathur/setup-php,
-      # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
-      # uses: shivammathur/setup-php@v2
       - name: Setup PHP ${{ matrix.php-version }}
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-      - uses: actions/checkout@v3
+          extensions: iconv, gd, pdo_pgsql
+          tools: composer:v2
+          coverage: xdebug
+      - uses: actions/checkout@v4
       - name: Copy .env.test.local
-        run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
+        run: |
+          if [ ! -f .env.test.local ]; then
+            cp .env.test .env.test.local
+          fi
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-php-${{ matrix.php-version }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php-
+            ${{ runner.os }}-php-${{ matrix.php-version }}-
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-      - name: Setup PostgreSQL
-        uses: Harmon758/postgresql-action@v1.0.0
-        with:
-          postgresql version: 16
-          postgresql db: app
-          postgresql user: app
-          postgresql password: app-pwd
+      - name: Wait for PostgreSQL
+        run: |
+          while ! pg_isready -h localhost -p 5432 -U app; do
+            sleep 1
+          done
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         env:
-          DATABASE_URL: postgresql://app:app-pwd@database/app?serverVersion=16&charset=utf8
+          DATABASE_URL: postgresql://app:app-pwd@localhost:5432/app?serverVersion=18&charset=utf8
         run: vendor/bin/phpunit
