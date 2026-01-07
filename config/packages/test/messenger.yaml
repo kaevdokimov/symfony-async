@@ -1,0 +1,18 @@
+framework:
+    messenger:
+        failure_transport: failed
+
+        default_bus: command.bus
+
+        buses:
+            command.bus: ~
+            event.bus: ~
+
+        transports:
+            async: 'in-memory://'
+            sync: 'in-memory://'
+            failed: 'in-memory://'
+
+        routing:
+            'App\Message\Command\SaveOrder': sync
+            'App\Message\Event\OrderSavedEvent': async

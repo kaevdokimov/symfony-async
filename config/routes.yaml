@@ -8,4 +8,10 @@
 #   bin/console debug:router
 
 controllers:
-    resource: routing.controllers
+    resource: ../src/Controller/
+    type: attribute
+
+# Manual route for testing
+buy_stock:
+    path: /buy
+    controller: App\Controller\StockTransactionController::buy
