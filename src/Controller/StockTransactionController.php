@@ -10,32 +10,25 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StockTransactionController extends AbstractController
 {
-    // buy
-    #[Route('/buy', name: 'buy-stock')]
+    #[Route('/buy', name: 'buy-stock', methods: ['GET'])]
     public function buy(MessageBusInterface $bus): Response
     {
-        // $notification->getOrder()->getBuyer()->getEmail()
-        /*$order = new class {
-            public function getId(): int
-            {
-                return 1;
-            }
-            public function getBuyer(): object
-            {
-                return new class {
-                    public function getEmail(): string
-                    {
-                        return 'email@example.tech';
-                    }
-                };
-            }
-        };*/
+        // Dispatch command to save order
+        $command = new SaveOrder(
+            userId: 1, // In real app, get from authenticated user
+            stockSymbol: 'AAPL',
+            quantity: 10,
+            price: 150.50
+        );
 
-        // 1. Dispatch confirmation message
-        $bus->dispatch(new SaveOrder());
+        $bus->dispatch($command);
 
-        // 2. Display confirmation to the user
-        return $this->render('stocks/example.html.twig');
+        // Display confirmation to the user with caching headers
+        return $this->render('stocks/example.html.twig', [], new Response('', 200, [
+            'Cache-Control' => 'no-cache, no-store, must-revalidate',
+            'Pragma' => 'no-cache',
+            'Expires' => '0',
+        ]));
     }
 
 }
