@@ -185,7 +185,7 @@ fabric.properties
 
 ###> phpunit/phpunit ###
 /phpunit.xml
-.phpunit.result.cache
+/.phpunit.cache/
 ###< phpunit/phpunit ###
 
 compose.override.yaml
