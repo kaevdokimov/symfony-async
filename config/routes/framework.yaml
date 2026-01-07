@@ -1,1 +1,4 @@
-# Error handling is now built into FrameworkBundle in Symfony 8.0+
+when@dev:
+    _errors:
+        resource: '@FrameworkBundle/Resources/config/routing/errors.php'
+        prefix: /_error
