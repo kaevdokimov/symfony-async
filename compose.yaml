@@ -71,7 +71,7 @@ services:
     restart: unless-stopped # Добавлено для автоматического перезапуска
 
   redis:
-    image: redis:8.4-alpine3.22
+    image: redis:8.4.2-alpine3.22
     container_name: sa-redis
     ports:
       - "${REDIS_PORT:-6379}:6379"
