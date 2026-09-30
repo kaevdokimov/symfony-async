@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e275b8faa996d64d6eeefbe90346be71",
+    "content-hash": "5f3e267e481dc208051beee101c8fb09",
     "packages": [
         {
             "name": "doctrine/collections",
@@ -1849,22 +1849,22 @@
         },
         {
             "name": "symfony/amqp-messenger",
-            "version": "v8.0.6",
+            "version": "v8.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/amqp-messenger.git",
-                "reference": "d9f1fddb05862c9f832c69373890491ca1edc8b0"
+                "reference": "9b4ba6f93199df714e0a21e88494da5035cf3b68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/amqp-messenger/zipball/d9f1fddb05862c9f832c69373890491ca1edc8b0",
-                "reference": "d9f1fddb05862c9f832c69373890491ca1edc8b0",
+                "url": "https://api.github.com/repos/symfony/amqp-messenger/zipball/9b4ba6f93199df714e0a21e88494da5035cf3b68",
+                "reference": "9b4ba6f93199df714e0a21e88494da5035cf3b68",
                 "shasum": ""
             },
             "require": {
                 "ext-amqp": "*",
-                "php": ">=8.4",
-                "symfony/messenger": "^7.4|^8.0"
+                "php": ">=8.4.1",
+                "symfony/messenger": "^8.1"
             },
             "require-dev": {
                 "symfony/event-dispatcher": "^7.4|^8.0",
@@ -1898,7 +1898,7 @@
             "description": "Symfony AMQP extension Messenger Bridge",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/amqp-messenger/tree/v8.0.6"
+                "source": "https://github.com/symfony/amqp-messenger/tree/v8.1.8"
             },
             "funding": [
                 {
@@ -1918,7 +1918,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-02-25T16:59:43+00:00"
+            "time": "2026-09-23T13:10:29+00:00"
         },
         {
             "name": "symfony/cache",
@@ -3618,16 +3618,16 @@
         },
         {
             "name": "symfony/messenger",
-            "version": "v8.1.7",
+            "version": "v8.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/messenger.git",
-                "reference": "90019bfcb5c2c3d9e44a18186e2381c261be1717"
+                "reference": "01b42daaefd1e020fabf2e94cf9448b1f2ad6f98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/messenger/zipball/90019bfcb5c2c3d9e44a18186e2381c261be1717",
-                "reference": "90019bfcb5c2c3d9e44a18186e2381c261be1717",
+                "url": "https://api.github.com/repos/symfony/messenger/zipball/01b42daaefd1e020fabf2e94cf9448b1f2ad6f98",
+                "reference": "01b42daaefd1e020fabf2e94cf9448b1f2ad6f98",
                 "shasum": ""
             },
             "require": {
@@ -3686,7 +3686,7 @@
             "description": "Helps applications send and receive messages to/from other applications or via message queues",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/messenger/tree/v8.1.7"
+                "source": "https://github.com/symfony/messenger/tree/v8.1.8"
             },
             "funding": [
                 {
@@ -3706,7 +3706,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-09-14T17:47:24+00:00"
+            "time": "2026-09-29T12:38:40+00:00"
         },
         {
             "name": "symfony/mime",
