@@ -15,7 +15,7 @@
         "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.6",
         "mpdf/mpdf": "^8.1",
-        "symfony/amqp-messenger": "8.0.*",
+        "symfony/amqp-messenger": "8.1.*",
         "symfony/console": "8.0.*",
         "symfony/doctrine-messenger": "8.0.*",
         "symfony/dotenv": "8.1.*",
