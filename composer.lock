@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1d8672bfd84a3e14d9e78a4f6b52640a",
+    "content-hash": "abeac7d22a2981fc5a5756d9d22ba634",
     "packages": [
         {
             "name": "doctrine/collections",
@@ -4396,22 +4396,22 @@
         },
         {
             "name": "symfony/redis-messenger",
-            "version": "v8.0.4",
+            "version": "v8.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/redis-messenger.git",
-                "reference": "70db9083adc922f150f819311453afe8ad096ea9"
+                "reference": "ddaba45639e5efeee46a07b15f155631181a534f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/redis-messenger/zipball/70db9083adc922f150f819311453afe8ad096ea9",
-                "reference": "70db9083adc922f150f819311453afe8ad096ea9",
+                "url": "https://api.github.com/repos/symfony/redis-messenger/zipball/ddaba45639e5efeee46a07b15f155631181a534f",
+                "reference": "ddaba45639e5efeee46a07b15f155631181a534f",
                 "shasum": ""
             },
             "require": {
                 "ext-redis": "*",
-                "php": ">=8.4",
-                "symfony/messenger": "^7.4|^8.0"
+                "php": ">=8.4.1",
+                "symfony/messenger": "^8.1"
             },
             "conflict": {
                 "ext-redis": "<6.1",
@@ -4448,7 +4448,7 @@
             "description": "Symfony Redis extension Messenger Bridge",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/redis-messenger/tree/v8.0.4"
+                "source": "https://github.com/symfony/redis-messenger/tree/v8.1.9"
             },
             "funding": [
                 {
@@ -4468,7 +4468,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-01-01T23:07:29+00:00"
+            "time": "2026-09-30T08:42:31+00:00"
         },
         {
             "name": "symfony/routing",
