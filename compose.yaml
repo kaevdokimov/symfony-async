@@ -42,7 +42,7 @@ services:
 
   ###> doctrine/doctrine-bundle ###
   db:
-    image: postgres:18-alpine3.23
+    image: postgres:19-alpine3.23
     container_name: sa-db
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-app}
